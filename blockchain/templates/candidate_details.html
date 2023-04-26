@@ -1,0 +1,30 @@
+{% load static %}
+
+<div class="candidate-details-div">
+
+    <div class="candidate-details">
+        
+        <table class="details">
+            <tr class="details-row">
+                <td class="des">Voter No.:</td>
+                <td>{{ details.uuid }}</td>
+                <td rowspan="5" style="text-align: center;"><img class="candidate-photo" src = '{{ details.profile_pic }}'></td>
+            </tr>
+            <tr class="details-row">
+                <td class="des">Name:</td>
+                <td>{{ details.name }}</td>
+            </tr>
+            <tr class="details-row">
+                <td class="des">Email:</td>
+                <td>{{ details.email }}</td>
+            </tr>
+        </table>
+        
+    </div>
+
+    <div>
+        <a class="vote-now" id="vote-now">Vote Now</a>
+    </div>
+
+</div>
+<script src="{% static 'scripts/candidate_details.js' %}"></script>

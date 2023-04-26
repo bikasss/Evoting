@@ -1,0 +1,121 @@
+<!-- Things to be Done-------------------->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Indian National Election</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/loading.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/candidate-profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/voting.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/final-status.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+    <script src="{% static 'scripts/jquery.js' %}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.getScript( "{% static 'scripts/base.js' %}" );
+            $.getScript( "{% static 'scripts/csrf.js' %}" );
+        });
+    </script>
+
+    {% block head %}{% endblock %}
+
+</head>
+
+<body>
+
+    <div class="gradient"></div>
+
+    <!-- -------------------------------------------- Main Content ----------------------------------- -->
+
+    <div class="main-content">
+
+        {% block main_content %}{% endblock %}
+
+    </div>
+
+    <!-- ----------------------------- Header --------------------------------- -->
+
+    <div class="header">
+
+            <div class="logo" title="Navigation Bar">
+                <img style="height: 40px; width: 40px; margin: auto;" src="{% static 'images/logo.jpeg' %}">
+                <div class="logo-text">
+                    <span class="logo-text" style="font-size: 16px;">Indian National Election</span>
+                    <span class="logo-text" style="font-size: 12px;">using blockchain</span>
+                </div>
+            </div>
+
+            <div class="status-box">
+                <div class="status" style="color: rgb(52, 2, 65); background: rgba(62, 44, 224, 0.445);">
+                    Indian National Election
+                </div>
+            </div>
+
+            
+            <div>
+                <a class="drawer-item" href="/vote">
+                    Vote
+                </a>
+            </div>
+
+            <div>
+                <a class="drawer-item" href="/result">
+                    Result
+                </a>
+            </div>
+
+            <div>
+                <a class="drawer-item" href="/validate">
+                    Authority
+                </a>
+            </div>
+
+
+            <div>
+                <a class="drawer-item" href="/blocks">
+                    Blocks
+                </a>
+            </div>
+
+            <div class="short-details">&nbsp;
+                <div class="basic-details"></div>
+                <img class="profile-pic"></img>
+            </div>
+            <div class="form-group">
+                <input type="color" class="form-control color-picker" id="color-picker" name="color-picker">
+            </div>
+            
+    </div>
+
+    <!-- ---------------------------------------- Navigation Drawer -------------------------------- -->
+
+
+    <!-- --------------------------------- Loading ------------------------------ -->
+
+    <div class="loading-div">
+        <img src="{% static 'images/logo.jpeg' %}">
+        <div>Indian National Election</div>
+        <div>using BlockChain</div>
+        <div id="loading-message" class="loading-message">Please wait...</div>
+        <img class="loading-image" src="{% static 'images/loading.gif' %}">
+    </div>
+
+</body>
+</html>

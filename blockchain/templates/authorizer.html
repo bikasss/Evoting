@@ -1,0 +1,12 @@
+{% load static %}
+
+<h1>Authentication</h1>
+	<form method="POST" action="{% url 'start-mining' %}">
+		{% csrf_token %}
+		<label for="email">Enter Your Email Address:</label>
+		<input type="email" id="email" name="email" required>
+		<br>
+		<input type="submit" value="Submit">
+	</form>
+
+<script src="{% static 'scripts/candidate_details.js' %}"></script>

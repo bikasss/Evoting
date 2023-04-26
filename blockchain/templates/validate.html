@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<script src="{% static 'scripts/base.js' %}"></script>
+<script src="{% static 'scripts/csrf.js' %}"></script>
+<script src="{% static 'scripts/val.js' %}"></script>
+<style>
+  .input-field {
+    opacity: 0;
+    padding: 5px;
+
+    background: rgba(255, 255, 255, 0.3);
+    color: #af3700;
+    border-color: #ff5100;
+    border-radius: 3px;
+
+    transition: all 0.3s linear;
+    animation: slide-fade-in 1s ease-out 0.2s forwards;
+  }
+
+  .button {
+    opacity: 0;
+    background: linear-gradient( #ff5100, #af3700 );
+    color: white;
+    border: none;
+    padding: 8px 40px;
+    border-radius: 3px;
+
+    margin-left: 20px;
+    cursor: pointer;
+
+    transition: all 0.3s linear;
+    animation: slide-fade-in 1s ease-out 0.4s forwards;
+  }
+</style>
+
+
+{% endblock %}
+
+{% block main_content %}
+<div class = "authentication">
+  <span>Enter Email Id:</span>
+  <form method="post" action="{% url 'authenticate_email' %}">
+    {% csrf_token %}
+    <input type="text" name="email" id="email" class="input-field" autocomplete="off">
+    <button type="submit" id="my-button" class="button">Authenticate</button>
+  </form>
+</div>
+{% endblock %}
