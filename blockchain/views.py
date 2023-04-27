@@ -426,83 +426,6 @@ def create_block(request):
         return data
     else:
         return redirect(reverse('authenticate_email'))
-
-def dummy_data_input(to_do):
-
-    track_data['progress'] = True
-    track_data['status'] = 'Deleting current Data.'
-    track_data['completed'] = 0
-    
-    PoliticalParty.objects.all().delete()
-    Voters.objects.all().delete()
-    Vote.objects.all().delete()
-    Block.objects.all().delete()
-    VoteBackup.objects.all().delete()
-    MiningInfo.objects.all().delete()
-
-    track_data['completed'] = 100
-    track_data['status'] = 'Deleted current Data.'
-
-    MiningInfo(id = 0, prev_hash = '0'*64, last_block_id = '0').save()
-
-    if to_do['createPoliticianParties']:
-
-        parties = {
-            'nota': {
-                'party_id': 'nota',
-                'party_name': 'None of the above (NOTA)',
-                'party_logo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/NOTA_Option_Logo.png/220px-NOTA_Option_Logo.png',
-                'candidate_name': '',
-                'candidate_profile_pic': ''
-            }
-        }
-
-        track_data['completed'] = 0
-        track_data['status'] = 'Creating parties.'
-
-        # Create Parties
-        for party in parties.values():
-            PoliticalParty(party_id = party['party_id'], party_name = party['party_name'], party_logo = party['party_logo']).save()
-            curr = list(parties.keys()).index(party['party_id'])+1
-            track_data['completed'] = round(curr*100/len(parties))
-
-    if to_do['createRandomVoters']:
-
-        track_data['completed'] = 0
-        track_data['status'] = 'Creating voters.'
-
-        # Create Voters
-        no_of_voters = 10
-        for i in range(1, no_of_voters+1):
-            # uuid = ''.join(random.choice(string.digits) for _ in range(12))
-            uuid = i
-            name = ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for _ in range(12))
-            dob = datetime.date(random.randint(1980, 2002), random.randint(1, 12), random.randint(1, 28))
-            pincode = ''.join(random.choice(string.digits) for _ in range(6))
-            region = ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for _ in range(20))
-            voter = Voters(uuid = uuid, name = name, dob = dob, pincode = pincode, region = region).save()
-            track_data['completed'] = round(i*100/no_of_voters)
-
-    if to_do['castRandomVote'] and to_do['createRandomVoters'] and to_do['createPoliticianParties']:
-
-        track_data['completed'] = 0
-        track_data['status'] = 'Creating votes.'
-
-        # Create Votes
-        party_ids = list(parties.keys())
-        for i in range(1, no_of_voters+1):
-            curr_time = timezone.now()
-            party_id = party_ids[random.randint(0,len(party_ids)-1)]
-            Vote(uuid = i, vote_party_id = party_id, timestamp = curr_time).save()
-            VoteBackup(uuid = i, vote_party_id = party_id, timestamp = curr_time).save()
-            voter = Voters.objects.get(uuid=i)
-            voter.vote_done = True
-            voter.save()
-            track_data['completed'] = round(i*100/no_of_voters)
-
-    track_data['status'] = 'Finishing task.'
-    track_data['progress'] = False
-
 def blockchain(request):
     blocks = Block.objects.all()
     return render(request, 'blockchain.html', {'blocks':blocks})
@@ -526,7 +449,7 @@ def block_info(request):
             'confirmed_by': confirmed_by,
             'votes': zip(votes, vote_hashes),
             're_merkle_hash': merkle_hash,
-            'isTampered': False,
+            'isTampered': tampered,
         }
         return render(request, 'block-info.html', context)
     except Exception as e:
@@ -575,7 +498,7 @@ def verify_block(request):
         print(block.merkle_hash)
         print("***********")
         tampered = block.merkle_hash != merkle_hash
-        context[s_block] = False
+        context[s_block] = tampered
     return JsonResponse(context)
 
 def track_server(request):
